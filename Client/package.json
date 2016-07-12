@@ -1,0 +1,25 @@
+{
+  "name": "wachtersdong.info",
+  "version": "0.0.1",
+  "description": "",
+  "main": "gulpfile.jsjs",
+  "scripts": {
+    "run": "gulp"
+  },
+  "author": "subhuman",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "latest",
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-combine-media-queries": "latest",
+    "gulp-concat": "latest",
+    "gulp-jshint": "latest",
+    "gulp-notify": "latest",
+    "gulp-sass": "latest",
+    "gulp-sourcemaps": "latest",
+    "jshint": "latest",
+    "jshint-stylish": "latest",
+    "gulp-util": "latest"
+  }
+}
