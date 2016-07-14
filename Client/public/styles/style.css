@@ -1,3 +1,14 @@
 * {
   margin: 0;
   padding: 0; }
+
+#container {
+  width: 800px;
+  height: 800px;
+  /*top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);*/
+  background-color: red; }
+
+.item {
+  background-color: #333; }
