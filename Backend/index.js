@@ -9,6 +9,8 @@ const baseFolder = '../gifs/';
 const baseUriDirectory = '/gifs';
 const peopleFolderName = 'people';
 const funnyFolderName = 'funny';
+const wallFilesFolder = '../Client/public';
+const wallFolderName = 'wall';
 
 // Express Setup
 const app = express();
@@ -60,6 +62,9 @@ app.get(baseUriDirectory + '/info', (req, res) => {
 // expose folders of gif files
 app.use(baseUriDirectory + '/' + peopleFolderName, express.static(path.join(baseFolder, peopleFolderName)));
 app.use(baseUriDirectory + '/' + funnyFolderName, express.static(path.join(baseFolder, funnyFolderName)));
+
+// expose static html files of client
+app.use(baseUriDirectory + '/' + wallFolderName, express.static(path.join(__dirname, wallFilesFolder)));
 
 /**
  * Get information of an array of images
