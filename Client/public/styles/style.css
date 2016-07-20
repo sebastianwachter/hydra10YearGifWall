@@ -10,7 +10,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: red; }
+  background-color: #000; }
 
 .item {
   background-color: #333; }
+
+img {
+  position: absolute; }
