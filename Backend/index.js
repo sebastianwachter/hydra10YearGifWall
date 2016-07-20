@@ -4,7 +4,13 @@ var path = require('path');
 var _ = require('lodash');
 var dimensions = require('image-size');
 
-// Config
+// Wall configuration
+const peopleRatio = 0.8;
+const funnyRatio = 0.2;
+const picsPerScreen = 12;
+const space = 0.02;
+
+// Config (change it per system)
 const baseFolder = '../gifs/';
 const baseUriDirectory = '/gifs';
 const peopleFolderName = 'people';
@@ -12,7 +18,13 @@ const funnyFolderName = 'funny';
 const wallFilesFolder = '../Client/public';
 const wallFolderName = 'wall';
 
-// Express Setup
+// Calcuations
+var peoplesPerScreen = Math.floor(picsPerScreen * peopleRatio);
+var funnysPerScreen = Math.floor(picsPerScreen * funnyRatio);
+
+// Setup
+const arrangementAlgos = require('./arrangement');
+// Express
 const app = express();
 const port = process.env.PORT || 4000;
 app.listen(port, console.log('Server started on port ' + port));
@@ -40,7 +52,45 @@ app.get(baseUriDirectory + '/info', (req, res) => {
     });
     var funnyGifFiles = getGifInformations(funnyGifFilePaths);
 
-    // return result
+    // calculate coordinates and recalcuate dimensions of pics if asked for a wall
+    if (req.query.width && req.query.height) {
+
+      // annotate objects to be processed as arrays
+      for (var k of _.keys(peopleGifFiles)) {
+        peopleGifFiles[k].name = k;
+        peopleGifFiles[k].source = 'p';
+      }
+      for (var k of _.keys(funnyGifFiles)) {
+        funnyGifFiles[k].name = k;
+        funnyGifFiles[k].source = 'f';
+      }
+
+      // randomly chose the right number of pics
+      peopleGifFiles = _.take(_.shuffle(peopleGifFiles), peoplesPerScreen);
+      funnyGifFiles = _.take(_.shuffle(funnyGifFiles), funnysPerScreen);
+
+      // randomly choose an arrangement algorithm and run it (it manipulates the arrays)
+      var algo = _.shuffle(_.keys(arrangementAlgos))[0];
+      arrangementAlgos[algo](req.query.width, req.query.height, space, peopleGifFiles, funnyGifFiles);
+
+      // cleanup annotations
+      var peoples = {};
+      for (var pic of peopleGifFiles) {
+        delete pic.source;
+        peoples[pic.name] = pic;
+        delete pic.name;
+      }
+      peopleGifFiles = peoples; 
+      var funnys = {};
+      for (var pic of funnyGifFiles) {
+        delete pic.source;
+        funnys[pic.name] = pic;
+        delete pic.name;
+      }
+      funnyGifFiles = funnys;
+    }
+
+    // fallback: return result without x and y coordinates calculation
     return res.jsonp({
       basePath: req.protocol + '://' + req.get('host') + baseUriDirectory,
       people: {
@@ -86,7 +136,7 @@ function getGifInformations(filePaths) {
     result[path.basename(filePath)] = {
       height: imgDimensions.height,
       width: imgDimensions.width,
-      ration: imgDimensions.width / imgDimensions.height
+      ratio: imgDimensions.width / imgDimensions.height
     };
   }
   return result;
