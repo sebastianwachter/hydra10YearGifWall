@@ -108,10 +108,16 @@ function generateOutput(req, peopleGifFiles, funnyGifFiles) {
   var baseUri = req.protocol + '://' + req.get('host') + baseUriDirectory;
   var result = {};
   for (var key of _.keys(peopleGifFiles)) {
-    result[baseUri + '/' + peopleFolderName + '/' + key] = peopleGifFiles[key];
+    var pic = peopleGifFiles[key];
+    if (_.has(pic, 'x') && _.has(pic, 'y') && _.has(pic, 'width') && _.has(pic, 'height')) {
+      result[baseUri + '/' + peopleFolderName + '/' + key] = pic;
+    }
   }
   for (var key of _.keys(funnyGifFiles)) {
-    result[baseUri + '/' + funnyFolderName + '/' + key] = funnyGifFiles[key];
+    var pic = funnyGifFiles[key];
+    if (_.has(pic, 'x') && _.has(pic, 'y') && _.has(pic, 'width') && _.has(pic, 'height')) {
+      result[baseUri + '/' + funnyFolderName + '/' + key] = pic;
+    }
   }
   return result;
 }
