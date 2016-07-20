@@ -1,3 +1,16 @@
 * {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  overflow: hidden; }
+
+#container {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: red; }
+
+.item {
+  background-color: #333; }
