@@ -91,19 +91,7 @@ app.get(baseUriDirectory + '/info', (req, res) => {
     }
 
     // fallback: return result without x and y coordinates calculation
-    return res.jsonp({
-      basePath: req.protocol + '://' + req.get('host') + baseUriDirectory,
-      people: {
-        path: peopleFolderName,
-        total: _.keys(peopleGifFiles).length,
-        gifs: peopleGifFiles
-      },
-      funny: {
-        path: funnyFolderName,
-        total: _.keys(funnyGifFiles).length,
-        gifs: funnyGifFiles
-      }
-    });
+    return res.jsonp(generateOutput(req, peopleGifFiles, funnyGifFiles));
 
   });
 
@@ -115,6 +103,18 @@ app.use(baseUriDirectory + '/' + funnyFolderName, express.static(path.join(baseF
 
 // expose static html files of client
 app.use(baseUriDirectory + '/' + wallFolderName, express.static(path.join(__dirname, wallFilesFolder)));
+
+function generateOutput(req, peopleGifFiles, funnyGifFiles) {
+  var baseUri = req.protocol + '://' + req.get('host') + baseUriDirectory;
+  var result = {};
+  for (var key of _.keys(peopleGifFiles)) {
+    result[baseUri + '/' + peopleFolderName + '/' + key] = peopleGifFiles[key];
+  }
+  for (var key of _.keys(funnyGifFiles)) {
+    result[baseUri + '/' + funnyFolderName + '/' + key] = funnyGifFiles[key];
+  }
+  return result;
+}
 
 /**
  * Get information of an array of images
