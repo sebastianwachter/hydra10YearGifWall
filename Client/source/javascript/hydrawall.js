@@ -24,7 +24,6 @@ Hydrawall.prototype.loadGifs = function (container) {
     container.html('');
 /*
     $.getJSON( "https://christianhotz.de/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
-        console.log(data);
       $.each( data, function( key, val ) {
           container.append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
       });
@@ -32,7 +31,6 @@ Hydrawall.prototype.loadGifs = function (container) {
 */
 
     $.getJSON( "http://192.168.9.156:4000/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
-        console.log(data);
       $.each( data, function( key, val ) {
           container.append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
       });
@@ -73,5 +71,5 @@ Hydrawall.prototype.loop = function () {
         self.theBool = !self.theBool;
         self.loop();
 
-    },10000);
+    },30000);
 }
