@@ -71,5 +71,5 @@ Hydrawall.prototype.loop = function () {
         self.theBool = !self.theBool;
         self.loop();
 
-    },30000);
+    },20000);
 }
