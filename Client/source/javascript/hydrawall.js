@@ -22,8 +22,16 @@ var Hydrawall = function () {
 Hydrawall.prototype.loadGifs = function (container) {
 
     container.html('');
-
+/*
     $.getJSON( "https://christianhotz.de/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
+        console.log(data);
+      $.each( data, function( key, val ) {
+          container.append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
+      });
+    });
+*/
+
+    $.getJSON( "http://192.168.9.156:4000/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
         console.log(data);
       $.each( data, function( key, val ) {
           container.append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
@@ -33,10 +41,14 @@ Hydrawall.prototype.loadGifs = function (container) {
 }
 
 Hydrawall.prototype.hide = function (container) {
+    var self = this;
     container.find('img').each(function(){
         var delay = Math.random();
         TweenMax.to($(this), 0.05, {opacity:0, delay: delay});
     });
+    setTimeout(function(){
+        self.loadGifs(container);
+    },1000);
 }
 
 Hydrawall.prototype.show = function (container) {
@@ -48,7 +60,6 @@ Hydrawall.prototype.show = function (container) {
 
 Hydrawall.prototype.loop = function () {
     var self = this;
-
     setTimeout(function(){
 
         if (self.theBool){
@@ -62,5 +73,5 @@ Hydrawall.prototype.loop = function () {
         self.theBool = !self.theBool;
         self.loop();
 
-    },3000);
+    },10000);
 }

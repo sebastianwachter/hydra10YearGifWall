@@ -4,7 +4,10 @@
   overflow: hidden; }
 
 body {
-  background-color: #000; }
+  background-color: #000;
+  background-image: url(../images/Background_Tile_2.png);
+  background-repeat: repeat;
+  background-size: 50%; }
 
 img {
   position: absolute;
