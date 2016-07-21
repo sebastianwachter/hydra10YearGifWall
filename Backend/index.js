@@ -7,8 +7,10 @@ var dimensions = require('image-size');
 // Wall configuration
 const peopleRatio = 0.8;
 const funnyRatio = 0.2;
-const picsPerScreen = 12;
-const space = 0.02;
+const space = 0;
+// Take a higher values than you want. Some will be lost during arrangement calculation
+const minPicsPerScreen = 10;
+const maxPicsPerScreen = 18;
 
 // Config (change it per system)
 const baseFolder = '../gifs/';
@@ -17,10 +19,6 @@ const peopleFolderName = 'people';
 const funnyFolderName = 'funny';
 const wallFilesFolder = '../Client/public';
 const wallFolderName = 'wall';
-
-// Calcuations
-var peoplesPerScreen = Math.round(picsPerScreen * peopleRatio);
-var funnysPerScreen = Math.round(picsPerScreen * funnyRatio);
 
 // Setup
 const arrangementAlgos = require('./arrangement');
@@ -31,6 +29,11 @@ app.listen(port, console.log('Server started on port ' + port));
 
 // Route for gif infos
 app.get(baseUriDirectory + '/info', (req, res) => {
+
+  // Calcuations
+  var picsPerScreen = rand(minPicsPerScreen, maxPicsPerScreen);
+  var peoplesPerScreen = Math.round(picsPerScreen * peopleRatio);
+  var funnysPerScreen = Math.round(picsPerScreen * funnyRatio);
 
   // get the files names of the gifs
   getFilesFromDisk((err, fileNames) => {
@@ -196,3 +199,5 @@ function getFilesFromDisk(callback) {
 
   });
 }
+
+var rand = (lowerbound, upperbound) => Math.floor(Math.random() * (upperbound - lowerbound)) + lowerbound;
