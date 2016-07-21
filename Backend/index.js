@@ -168,7 +168,7 @@ function getFilesFromDisk(callback) {
 
     // filter gif files
     var peopleGifFileNames = _.filter(peopleFileNames, (peopleFileName) => {
-      return !_.isEmpty(peopleFileName.match(/^.*\.(gif|GIF)$/));
+      return !_.isEmpty(peopleFileName.match(/^.*\.(gif|jpg)$/i));
     });
 
     // read directory for funny gifs
@@ -184,7 +184,7 @@ function getFilesFromDisk(callback) {
 
       // filter gif files
       var funnyGifFileNames = _.filter(funnyFileNames, (funnyFileName) => {
-        return !_.isEmpty(funnyFileName.match(/^.*\.(gif|GIF)$/));
+        return !_.isEmpty(funnyFileName.match(/^.*\.(gif|jpg)$/i));
       });
 
       return callback(null, {
