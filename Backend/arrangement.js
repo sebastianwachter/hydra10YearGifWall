@@ -46,3 +46,54 @@ exports.baselinePlus = (width, height, space, peoples, funnys) => {
   peoples = _.filter(pics, { source: 'p' });
   funnys = _.filter(pics, { source: 'f' });
 }
+
+exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
+  var pics = _.shuffle(_.concat(peoples, funnys));
+  var spacePx = Math.floor(space * width);
+
+  var i = 0;
+
+  // randomly scale pics above the baseline and arrange them vertically
+  var countAbove = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
+  var completeWidthAbove = spacePx;
+  for (i; i < countAbove && i < pics.length; i++) {
+    pics[i].width = Math.floor(rand((width / countAbove) * 0.5, (width / countAbove) - ((countAbove + 1) / countAbove) * spacePx));
+    pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
+    if ((height / 2) - (spacePx / 2) - pics[i].height - spacePx < 0) {
+      pics[i].height = Math.floor((height / 2) - (spacePx / 2) - spacePx);
+      pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
+    }
+    pics[i].y = Math.floor((height / 2) - (spacePx / 2) - pics[i].height);
+    completeWidthAbove += pics[i].width + spacePx;
+  }
+
+  // randomly scale pics below the baseline and arrange them vertically
+  var countBelow = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
+  var completeWidthBelow = spacePx;
+  for (i; i < countAbove + countBelow && i < pics.length; i++) {
+    pics[i].width = Math.floor(rand((width / countBelow) * 0.5, (width / countBelow) - ((countBelow + 1) / countBelow) * spacePx));
+    pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
+    if ((height / 2) + (spacePx / 2) + pics[i].height + spacePx > height) {
+      pics[i].height = Math.floor((height / 2) - (spacePx / 2) - spacePx);
+      pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
+    }
+    pics[i].y = Math.floor((height / 2) + (spacePx / 2));
+    completeWidthBelow += pics[i].width + spacePx;
+  }
+
+  // arrange the pics horizontally (cluster in the middle of the screen)
+  var leftShift = Math.floor(((width - completeWidthAbove) / 2) + spacePx);
+  for (i = 0; i < countAbove && i < pics.length; i++) {
+    pics[i].x = leftShift;
+    leftShift += pics[i].width + spacePx;
+  }
+  leftShift = Math.floor(((width - completeWidthBelow) / 2) + spacePx);
+  for (i; i < countAbove + countBelow && i < pics.length; i++) {
+    pics[i].x = leftShift;
+    leftShift += pics[i].width + spacePx;
+  }
+
+  // maniupulate input objects
+  peoples = _.filter(pics, { source: 'p' });
+  funnys = _.filter(pics, { source: 'f' });
+}
