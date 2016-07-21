@@ -9,7 +9,7 @@ const peopleRatio = 0.8;
 const funnyRatio = 0.2;
 const space = 0;
 // Take a higher values than you want. Some will be lost during arrangement calculation
-const minPicsPerScreen = 10;
+const minPicsPerScreen = 11;
 const maxPicsPerScreen = 18;
 
 // Config (change it per system)

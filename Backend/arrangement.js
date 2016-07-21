@@ -5,7 +5,7 @@ exports.baselinePlus = (width, height, space, peoples, funnys) => {
   var spacePx = Math.floor(space * width);
   var baselineCount = Math.ceil(picsCount * 0.4); // number of pics in baseline
   baselineCount = baselineCount % 2 === 0 ? baselineCount - 1 : baselineCount;
-  var picsWidth = Math.floor((width / baselineCount) - (((baselineCount + 1) * spacePx) / baselineCount) - rand(0, 0.05 * width)); // width of those pics
+  var picsWidth = Math.floor((width / baselineCount) - (((baselineCount + 1) * spacePx) / baselineCount) - (rand(0, 0.15 * width) / baselineCount)); // width of those pics
 
   // scale all pics, annotate them and merge the arrays for simpler processing
   for (var pic of peoples) {
@@ -54,10 +54,10 @@ exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
   var i = 0;
 
   // randomly scale pics above the baseline and arrange them vertically
-  var countAbove = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
+  var countAbove = Math.floor(rand(pics.length * 0.3, pics.length * 0.4));
   var completeWidthAbove = spacePx;
   for (i; i < countAbove && i < pics.length; i++) {
-    pics[i].width = Math.floor(rand((width / countAbove) * 0.5, (width / countAbove) - ((countAbove + 1) / countAbove) * spacePx));
+    pics[i].width = Math.floor(rand((width / countAbove) * 0.8, (width / countAbove) - ((countAbove + 1) / countAbove) * spacePx));
     pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
     if ((height / 2) - (spacePx / 2) - pics[i].height - spacePx < 0) {
       pics[i].height = Math.floor((height / 2) - (spacePx / 2) - spacePx);
@@ -111,7 +111,7 @@ exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => 
     var countLeft = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
     var completeHeightLeft = spacePx;
     for (i; i < countLeft && i < pics.length; i++) {
-      pics[i].height = Math.floor(rand((height / countLeft) * 0.5, (height / countLeft) - ((countLeft + 1) / countLeft) * spacePx));
+      pics[i].height = Math.floor(rand((height / countLeft) * 0.8, (height / countLeft) - ((countLeft + 1) / countLeft) * spacePx));
       pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
       if ((width / 2) - (spacePx / 2) - pics[i].width - spacePx < 0) {
         pics[i].width = Math.floor((width / 2) - (spacePx / 2) - spacePx);
