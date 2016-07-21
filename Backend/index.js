@@ -19,8 +19,8 @@ const wallFilesFolder = '../Client/public';
 const wallFolderName = 'wall';
 
 // Calcuations
-var peoplesPerScreen = Math.floor(picsPerScreen * peopleRatio);
-var funnysPerScreen = Math.floor(picsPerScreen * funnyRatio);
+var peoplesPerScreen = Math.round(picsPerScreen * peopleRatio);
+var funnysPerScreen = Math.round(picsPerScreen * funnyRatio);
 
 // Setup
 const arrangementAlgos = require('./arrangement');
