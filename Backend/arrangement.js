@@ -97,3 +97,81 @@ exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
   peoples = _.filter(pics, { source: 'p' });
   funnys = _.filter(pics, { source: 'f' });
 }
+
+exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => {
+
+  var spacePx = Math.floor(space * width);
+
+  var tabbedToDeathVertical = (width, height, space, peoples, funnys) => {
+    var pics = _.shuffle(_.concat(peoples, funnys));
+
+    var i = 0;
+
+    // randomly scale pics above the baseline and arrange them horizontally
+    var countLeft = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
+    var completeHeightLeft = spacePx;
+    for (i; i < countLeft && i < pics.length; i++) {
+      pics[i].height = Math.floor(rand((height / countLeft) * 0.5, (height / countLeft) - ((countLeft + 1) / countLeft) * spacePx));
+      pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
+      if ((width / 2) - (spacePx / 2) - pics[i].width - spacePx < 0) {
+        pics[i].width = Math.floor((width / 2) - (spacePx / 2) - spacePx);
+        pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
+      }
+      pics[i].x = Math.floor((width / 2) - (spacePx / 2) - pics[i].width);
+      completeHeightLeft += pics[i].height + spacePx;
+    }
+
+    // randomly scale pics below the baseline and arrange them horizontally
+    var countRight = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
+    var completeHeightRight = spacePx;
+    for (i; i < countLeft + countRight && i < pics.length; i++) {
+      pics[i].height = Math.floor(rand((height / countRight) * 0.5, (height / countRight) - ((countRight + 1) / countRight) * spacePx));
+      pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
+      if ((width / 2) + (spacePx / 2) + pics[i].width + spacePx > width) {
+        pics[i].width = Math.floor((width / 2) - (spacePx / 2) - spacePx);
+        pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
+      }
+      pics[i].x = Math.floor((width / 2) + (spacePx / 2));
+      completeHeightRight += pics[i].height + spacePx;
+    }
+
+    // arrange the pics vertically (cluster in the middle of the screen)
+    var topShift = Math.floor(((height - completeHeightLeft) / 2) + spacePx);
+    for (i = 0; i < countLeft && i < pics.length; i++) {
+      pics[i].y = topShift;
+      topShift += pics[i].height + spacePx;
+    }
+    topShift = Math.floor(((height - completeHeightRight) / 2) + spacePx);
+    for (i; i < countLeft + countRight && i < pics.length; i++) {
+      pics[i].y = topShift;
+      topShift += pics[i].height + spacePx;
+    }
+
+    // maniupulate input objects
+    peoples = _.filter(pics, { source: 'p' });
+    funnys = _.filter(pics, { source: 'f' });
+  }
+
+  // split arrays up
+  var leftPeoples = _.slice(peoples, 0, Math.floor(peoples.length / 2));
+  var rightPeoples = _.slice(peoples, Math.floor(peoples.length / 2));
+  var leftFunnys = _.slice(funnys, 0, Math.floor(funnys.length / 2));
+  var rightFunnys = _.slice(funnys, Math.floor(funnys.length / 2));
+
+  // use vertical tabbing algorithm for both
+  tabbedToDeathVertical(width / 2, height, space, leftPeoples, leftFunnys);
+  tabbedToDeathVertical(width / 2, height, space, rightPeoples, rightFunnys);
+  // shift the second half to the right
+  for (var pic of rightPeoples) {
+    pic.x += Math.floor(width / 2);
+  }
+  for (var pic of rightFunnys) {
+    pic.x += Math.floor(width / 2);
+  }
+
+  // manipulate input objects
+  peoples = _.concat(leftPeoples, rightPeoples);
+  funnys = _.concat(leftFunnys, rightFunnys);
+}
+
+var rand = (lowerbound, upperbound) => Math.floor(Math.random() * (upperbound - lowerbound)) + lowerbound;
