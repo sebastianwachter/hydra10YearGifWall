@@ -19,8 +19,8 @@ const wallFilesFolder = '../Client/public';
 const wallFolderName = 'wall';
 
 // Calcuations
-var peoplesPerScreen = Math.floor(picsPerScreen * peopleRatio);
-var funnysPerScreen = Math.floor(picsPerScreen * funnyRatio);
+var peoplesPerScreen = Math.round(picsPerScreen * peopleRatio);
+var funnysPerScreen = Math.round(picsPerScreen * funnyRatio);
 
 // Setup
 const arrangementAlgos = require('./arrangement');
@@ -91,19 +91,7 @@ app.get(baseUriDirectory + '/info', (req, res) => {
     }
 
     // fallback: return result without x and y coordinates calculation
-    return res.jsonp({
-      basePath: req.protocol + '://' + req.get('host') + baseUriDirectory,
-      people: {
-        path: peopleFolderName,
-        total: _.keys(peopleGifFiles).length,
-        gifs: peopleGifFiles
-      },
-      funny: {
-        path: funnyFolderName,
-        total: _.keys(funnyGifFiles).length,
-        gifs: funnyGifFiles
-      }
-    });
+    return res.jsonp(generateOutput(req, peopleGifFiles, funnyGifFiles));
 
   });
 
@@ -115,6 +103,24 @@ app.use(baseUriDirectory + '/' + funnyFolderName, express.static(path.join(baseF
 
 // expose static html files of client
 app.use(baseUriDirectory + '/' + wallFolderName, express.static(path.join(__dirname, wallFilesFolder)));
+
+function generateOutput(req, peopleGifFiles, funnyGifFiles) {
+  var baseUri = req.protocol + '://' + req.get('host') + baseUriDirectory;
+  var result = {};
+  for (var key of _.keys(peopleGifFiles)) {
+    var pic = peopleGifFiles[key];
+    if (_.has(pic, 'x') && _.has(pic, 'y') && _.has(pic, 'width') && _.has(pic, 'height')) {
+      result[baseUri + '/' + peopleFolderName + '/' + key] = pic;
+    }
+  }
+  for (var key of _.keys(funnyGifFiles)) {
+    var pic = funnyGifFiles[key];
+    if (_.has(pic, 'x') && _.has(pic, 'y') && _.has(pic, 'width') && _.has(pic, 'height')) {
+      result[baseUri + '/' + funnyFolderName + '/' + key] = pic;
+    }
+  }
+  return result;
+}
 
 /**
  * Get information of an array of images
@@ -162,7 +168,7 @@ function getFilesFromDisk(callback) {
 
     // filter gif files
     var peopleGifFileNames = _.filter(peopleFileNames, (peopleFileName) => {
-      return !_.isEmpty(peopleFileName.match(/^.*\.(gif|GIF)$/));
+      return !_.isEmpty(peopleFileName.match(/^.*\.(gif|jpg)$/i));
     });
 
     // read directory for funny gifs
@@ -178,7 +184,7 @@ function getFilesFromDisk(callback) {
 
       // filter gif files
       var funnyGifFileNames = _.filter(funnyFileNames, (funnyFileName) => {
-        return !_.isEmpty(funnyFileName.match(/^.*\.(gif|GIF)$/));
+        return !_.isEmpty(funnyFileName.match(/^.*\.(gif|jpg)$/i));
       });
 
       return callback(null, {
