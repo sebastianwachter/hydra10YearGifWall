@@ -1,24 +1,68 @@
 var Hydrawall = function () {
 
-    //var obj = jQuery.parseJSON( https://christianhotz.de/gifs/info?width=1920&height=1080 );
-    //alert( obj.name === "John" );
-
+    var self = this;
     document.title = $(window).width()+" x "+$(window).height()
 
-    $.getJSON( "https://christianhotz.de/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
-      $.each( data, function( key, val ) {
-          $('body').append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
-      });
+    this.loadGifs($('#container1'));
+    this.loadGifs($('#container2'));
 
-    });
+    this.theBool = true;
+
+    setTimeout(function(){
+        self.show($('#container1'));
+        self.hide($('#container2'));
+        self.loop();
+    },1000);
+
+
 
 }
 
 
-Hydrawall.prototype.setPoints = function () {
+Hydrawall.prototype.loadGifs = function (container) {
 
+    container.html('');
 
+    $.getJSON( "https://christianhotz.de/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
+        console.log(data);
+      $.each( data, function( key, val ) {
+          container.append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
+      });
+    });
 
+}
+
+Hydrawall.prototype.hide = function (container) {
+    container.find('img').each(function(){
+        var delay = Math.random();
+        TweenMax.to($(this), 0.05, {opacity:0, delay: delay});
+    });
+}
+
+Hydrawall.prototype.show = function (container) {
+    container.find('img').each(function(){
+        var delay = Math.random();
+        TweenMax.to($(this), 0.05, {opacity:1, delay: delay});
+    });
+}
+
+Hydrawall.prototype.loop = function () {
+    var self = this;
+
+    setTimeout(function(){
+
+        if (self.theBool){
+            self.show($('#container1'));
+            self.hide($('#container2'));
+        } else {
+            self.show($('#container2'));
+            self.hide($('#container1'));
+        }
+
+        self.theBool = !self.theBool;
+        self.loop();
+
+    },3000);
 }
 
 /*

@@ -4,45 +4,19 @@
     <meta charset="utf-8">
     <link href="./styles/style.css" rel="stylesheet" type="text/css" />
     <script src="./scripts/lib/jquery-3.0.0.min.js"></script>
-    <script src="./scripts/lib/freewall.js"></script>
-    <script src="./scripts/lib/centering.js"></script>
-    
-    <title>hydra gif wall</title>
+    <script src="./scripts/lib/jquery.easing.js"></script>
+    <script src="./scripts/lib/TweenMax.min.js"></script>
+    <script src="./scripts/script.js"></script>
+    <title>hydra</title>
   </head>
   <body>
-    <div id="container">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
-    </div>
 
+      <div id='container1' class='container'></div>
+      <div id='container2' class='container'></div>
 
-    <script src="./scripts/script.js"></script>
     <script>
       $(function () {
-          var wall = new Freewall("#container");
-          wall.fitHeight();
+          var wall = new Hydrawall();
       });
     </script>
   </body>
