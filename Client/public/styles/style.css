@@ -3,6 +3,32 @@
   padding: 0;
   overflow: hidden; }
 
+body {
+  background-color: #000; }
+
+img {
+  position: absolute;
+  background-color: #333;
+  opacity: 0; }
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  opacity: 1;
+  perspective: 1000px; }
+
+/*
+#container1 {
+    background-color: #fc0;
+}
+#container2 {
+    background-color: #0cf;
+}
+*/
+/*
 #container {
   position: absolute;
   width: 1920px;
@@ -10,7 +36,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: red; }
+  background-color: #000; }
 
 .item {
-  background-color: #333; }
+  background-color: #333;
+}
+*/

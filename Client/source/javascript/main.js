@@ -1,3 +1,5 @@
+
+/*
 $('#contianer').css({
     'width': $(document).width(),
     'height': $(document).height()
@@ -14,3 +16,4 @@ $('.item').each(function () {
         'height': height
     });
 });
+*/
