@@ -3,9 +3,9 @@ var _ = require('lodash');
 exports.baselinePlus = (width, height, space, peoples, funnys) => {
   var picsCount = peoples.length + funnys.length;
   var spacePx = Math.floor(space * width);
-  var baselineCount = Math.floor(picsCount * 0.4); // number of pics in baseline
-  baselineCount = baselineCount % 2 === 0 ? baselineCount-- : baselineCount;
-  var picsWidth = Math.floor((width / baselineCount) - ((baselineCount + 1) * spacePx)); // width of those pics
+  var baselineCount = Math.ceil(picsCount * 0.4); // number of pics in baseline
+  baselineCount = baselineCount % 2 === 0 ? baselineCount - 1 : baselineCount;
+  var picsWidth = Math.floor((width / baselineCount) - (((baselineCount + 1) * spacePx) / baselineCount) - rand(0, 0.05 * width)); // width of those pics
 
   // scale all pics, annotate them and merge the arrays for simpler processing
   for (var pic of peoples) {
@@ -26,7 +26,7 @@ exports.baselinePlus = (width, height, space, peoples, funnys) => {
     pics[i].y = Math.floor((height / 2) - (pics[i].height / 2));
   }
   // next iterations (above baseline)
-  for (i; i < (2 * (baselineCount -1)) || i >= pics.length; i ++) {
+  for (i; i < (2 * (baselineCount -1)) && i < pics.length; i ++) {
     var referenceIdx = i - baselineCount;
     if (pics[referenceIdx].y - pics[i].height - 2 * spacePx >= 0) {
       pics[i].x = pics[referenceIdx].x;
@@ -34,9 +34,9 @@ exports.baselinePlus = (width, height, space, peoples, funnys) => {
     }
   }
   // next iterations (below baseline)
-  for (i; i < (3 * (baselineCount - 1)) || i >= pics.length; i ++) {
+  for (i; i < (3 * (baselineCount - 1)) && i < pics.length; i ++) {
     var referenceIdx = i - (2* (baselineCount - 1));
-    if (pics[referenceIdx].y + pics[referenceIdx].height + 2 * spacePx <= height) {
+    if (pics[referenceIdx].y + pics[referenceIdx].height + spacePx + pics[i].height + spacePx <= height) {
       pics[i].x = pics[referenceIdx].x;
       pics[i].y = pics[referenceIdx].y + pics[referenceIdx].height + spacePx;
     }
