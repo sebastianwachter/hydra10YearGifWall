@@ -43,9 +43,7 @@ exports.baselinePlus = (width, height, space, peoples, funnys) => {
     }
   }
 
-  // maniupulate input objects
-  peoples = _.filter(pics, { source: 'p' });
-  funnys = _.filter(pics, { source: 'f' });
+  return pics;
 }
 
 exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
@@ -94,9 +92,7 @@ exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
     leftShift += pics[i].width + spacePx;
   }
 
-  // maniupulate input objects
-  peoples = _.filter(pics, { source: 'p' });
-  funnys = _.filter(pics, { source: 'f' });
+  return pics;
 }
 
 exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => {
@@ -170,9 +166,7 @@ exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => 
     pic.x += Math.floor(width / 2);
   }
 
-  // manipulate input objects
-  peoples = _.concat(leftPeoples, rightPeoples);
-  funnys = _.concat(leftFunnys, rightFunnys);
+  return _.concat(leftPeoples, rightPeoples, leftFunnys, rightFunnys);
 }
 
 var rand = (lowerbound, upperbound) => Math.floor(Math.random() * (upperbound - lowerbound)) + lowerbound;

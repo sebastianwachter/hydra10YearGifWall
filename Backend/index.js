@@ -74,18 +74,18 @@ app.get(baseUriDirectory + '/info', (req, res) => {
 
       // randomly choose an arrangement algorithm and run it (it manipulates the arrays)
       var algo = _.shuffle(_.keys(arrangementAlgos))[0];
-      arrangementAlgos[algo](req.query.width, req.query.height, space, peopleGifFiles, funnyGifFiles);
+      var arrangedPics = arrangementAlgos[algo](req.query.width, req.query.height, space, peopleGifFiles, funnyGifFiles);
 
       // cleanup annotations
       var peoples = {};
-      for (var pic of peopleGifFiles) {
+      for (var pic of _.filter(arrangedPics, { source: 'p' })) {
         delete pic.source;
         peoples[pic.name] = pic;
         delete pic.name;
       }
       peopleGifFiles = peoples; 
       var funnys = {};
-      for (var pic of funnyGifFiles) {
+      for (var pic of _.filter(arrangedPics, { source: 'f'})) {
         delete pic.source;
         funnys[pic.name] = pic;
         delete pic.name;
