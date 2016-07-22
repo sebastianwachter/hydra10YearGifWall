@@ -31,9 +31,9 @@ app.listen(port, console.log('Server started on port ' + port));
 app.get(baseUriDirectory + '/info', (req, res) => {
 
   // Calcuations
-  var picsPerScreen = rand(minPicsPerScreen, maxPicsPerScreen);
-  var peoplesPerScreen = Math.round(picsPerScreen * peopleRatio);
-  var funnysPerScreen = Math.round(picsPerScreen * funnyRatio);
+  var picsPerScreen = _.random(minPicsPerScreen, maxPicsPerScreen, true);
+  var peoplesPerScreen = _.round(picsPerScreen * peopleRatio);
+  var funnysPerScreen = _.round(picsPerScreen * funnyRatio);
 
   // get the files names of the gifs
   getFilesFromDisk((err, fileNames) => {
@@ -173,5 +173,3 @@ function getFilesFromDisk(callback) {
 
   });
 }
-
-var rand = (lowerbound, upperbound) => Math.floor(Math.random() * (upperbound - lowerbound)) + lowerbound;
