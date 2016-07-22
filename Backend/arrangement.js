@@ -59,7 +59,8 @@ exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
     pics[i].width = Math.floor(rand((width / countAbove) * 0.8, (width / countAbove) - ((countAbove + 1) / countAbove) * spacePx));
     pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
     if ((height / 2) - (spacePx / 2) - pics[i].height - spacePx < 0) {
-      pics[i].height = Math.floor((height / 2) - (spacePx / 2) - spacePx);
+      var fillHeight = Math.floor((height / 2) - (spacePx / 2) - spacePx);
+      pics[i].height = rand(0.8 * fillHeight, fillHeight);
       pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
     }
     pics[i].y = Math.floor((height / 2) - (spacePx / 2) - pics[i].height);
@@ -73,7 +74,8 @@ exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
     pics[i].width = Math.floor(rand((width / countBelow) * 0.5, (width / countBelow) - ((countBelow + 1) / countBelow) * spacePx));
     pics[i].height = Math.floor(pics[i].width / pics[i].ratio);
     if ((height / 2) + (spacePx / 2) + pics[i].height + spacePx > height) {
-      pics[i].height = Math.floor((height / 2) - (spacePx / 2) - spacePx);
+      var fillHeight = Math.floor((height / 2) - (spacePx / 2) - spacePx);
+      pics[i].height = rand(0.8 * fillHeight, fillHeight);
       pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
     }
     pics[i].y = Math.floor((height / 2) + (spacePx / 2));
@@ -122,7 +124,7 @@ exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => 
     var countRight = Math.floor(rand(pics.length * 0.3, pics.length * 0.5));
     var completeHeightRight = spacePx;
     for (i; i < countLeft + countRight && i < pics.length; i++) {
-      pics[i].height = Math.floor(rand((height / countRight) * 0.5, (height / countRight) - ((countRight + 1) / countRight) * spacePx));
+      pics[i].height = Math.floor(rand((height / countRight) * 0.8, (height / countRight) - ((countRight + 1) / countRight) * spacePx));
       pics[i].width = Math.floor(pics[i].height * pics[i].ratio);
       if ((width / 2) + (spacePx / 2) + pics[i].width + spacePx > width) {
         pics[i].width = Math.floor((width / 2) - (spacePx / 2) - spacePx);
