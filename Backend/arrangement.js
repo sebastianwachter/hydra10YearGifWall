@@ -171,17 +171,17 @@ exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => 
   return _.concat(leftPeoples, rightPeoples, leftFunnys, rightFunnys);
 }
 
-exports.crazyBDay = (width, height, space, result, empty) => { // TODO: is it in people or funny directory?
+exports.crazyBDay = (width, height, space, result, empty) => {
   var horizontalSwitch = _.random(0.0, 1.0) > 0.5 ? true : false;
   var verticalSwitch = _.random(0.0, 1.0) > 0.5 ? true : false;
 
   var bDayFileNames = [
-    'abistreich-001.jpg', // main bday file
-    'abistreich-002.jpg',
-    'abistreich-003.jpg',
-    'abistreich-004.jpg',
-    'abistreich-006.jpg',
-    'abistreich-011.jpg'
+    'Happy_bday_escalation.gif', // main bday file
+    'Happy_bday_1.gif', // more bday files (arranged around the first)
+    'Happy_bday_2.gif',
+    'Happy_bday_headnut.gif',
+    'Happy_bday_4.gif',
+    'Happy_bday_3.gif'
   ];
   var bDayFilePaths = [];
   for (var i = 0; i < bDayFileNames.length; i++) {
