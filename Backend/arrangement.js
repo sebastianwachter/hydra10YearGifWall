@@ -171,4 +171,58 @@ exports.dualTabbedToDeathVertical =  (width, height, space, peoples, funnys) => 
   return _.concat(leftPeoples, rightPeoples, leftFunnys, rightFunnys);
 }
 
+exports.crazyBDay = (width, height, space, result, empty) => { // TODO: is it in people or funny directory?
+  var horizontalSwitch = _.random(0.0, 1.0) > 0.5 ? true : false;
+  var verticalSwitch = _.random(0.0, 1.0) > 0.5 ? true : false;
+
+  var bDayFileNames = [
+    '001.jpg', // main bday file
+    '002.jpg',
+    '003.jpg',
+    '004.jpg',
+    '006.jpg',
+    '011.jpg'
+  ];
+  var bDayFilePaths = [];
+  for (var i = 0; i < bDayFileNames.length; i++) {
+    bDayFilePaths[i] = '../gifs/people/' + bDayFileNames[i];
+  }
+
+  var bDayFiles = utils.getGifInformations(bDayFilePaths);
+  
+  for (var k of _.keys(bDayFiles)) {
+    bDayFiles[k].name = k;
+    bDayFiles[k].source = 'p';
+  }
+  bDayFiles = _.values(bDayFiles);
+
+  var mainPic = bDayFiles[0];
+  mainPic.width = width / 2 > mainPic.width ? mainPic.width : Math.round(width / 2);
+  mainPic.height = Math.round(mainPic.width / mainPic.ratio);
+  mainPic.x = horizontalSwitch ? Math.round((0.382 * width) - (mainPic.width / 2)) : Math.round((0.618 * width) - (mainPic.width / 2));
+  mainPic.y = verticalSwitch ? Math.round((0.618 * height) - (mainPic.height/2)) : Math.round((0.382 * height) - (mainPic.height / 2));
+
+  for (var i = 1; i < bDayFiles.length; i++) {
+    bDayFiles[i].width = Math.round(0.2 * width);
+    bDayFiles[i].height = Math.round(bDayFiles[i].width / bDayFiles[i].ratio);
+  }
+
+  bDayFiles[1].x = horizontalSwitch ? bDayFiles[0].x + bDayFiles[0].width : bDayFiles[0].x - bDayFiles[1].width;
+  bDayFiles[1].y = verticalSwitch ? bDayFiles[0].y + bDayFiles[0].height - Math.round(height * 0.05) - bDayFiles[1].height : bDayFiles[0].y + Math.round(height * 0.05);
+
+  bDayFiles[2].x = horizontalSwitch ? bDayFiles[1].x : bDayFiles[0].x - bDayFiles[2].width;
+  bDayFiles[2].y = verticalSwitch ? bDayFiles[1].y - bDayFiles[2].height : bDayFiles[1].y + bDayFiles[1].height;
+
+  bDayFiles[3].x = horizontalSwitch ? bDayFiles[2].x : bDayFiles[0].x - bDayFiles[3].width;
+  bDayFiles[3].y = verticalSwitch ? bDayFiles[2].y - bDayFiles[3].height : bDayFiles[2].y + bDayFiles[2].height;
+
+  bDayFiles[4].x = horizontalSwitch ? bDayFiles[0].x + bDayFiles[0].width - bDayFiles[4].width : bDayFiles[0].x;
+  bDayFiles[4].y = verticalSwitch ? bDayFiles[0].y - bDayFiles[4].height : bDayFiles[0].y + bDayFiles[0].height;
+
+  bDayFiles[5].x = horizontalSwitch ? bDayFiles[4].x - bDayFiles[5].width : bDayFiles[4].x + bDayFiles[4].width;
+  bDayFiles[5].y = verticalSwitch ? bDayFiles[4].y :  bDayFiles[4].y;
+
+  return bDayFiles;
+}
+
 var rand = (lowerbound, upperbound) => Math.floor(Math.random() * (upperbound - lowerbound)) + lowerbound;
