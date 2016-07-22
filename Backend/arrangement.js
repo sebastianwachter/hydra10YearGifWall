@@ -68,10 +68,10 @@ exports.tabbedToDeath = (width, height, space, peoples, funnys) => {
   }
 
   // randomly scale pics below the baseline and arrange them vertically
-  var countBelow = _.floor(_.random(pics.length * 0.3, pics.length * 0.5, true));
+  var countBelow = _.floor(_.random(pics.length * 0.3, pics.length * 0.4, true));
   var completeWidthBelow = spacePx;
   for (i; i < countAbove + countBelow && i < pics.length; i++) {
-    pics[i].width = _.round(_.random((width / countBelow) * 0.5, (width / countBelow) - ((countBelow + 1) / countBelow) * spacePx, true));
+    pics[i].width = _.round(_.random((width / countBelow) * 0.8, (width / countBelow) - ((countBelow + 1) / countBelow) * spacePx, true));
     pics[i].height = _.round(pics[i].width / pics[i].ratio);
     if ((height / 2) + (spacePx / 2) + pics[i].height + spacePx > height) {
       var fillHeight = _.round((height / 2) - (spacePx / 2) - spacePx);
