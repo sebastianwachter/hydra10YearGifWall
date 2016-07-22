@@ -197,7 +197,7 @@ exports.crazyBDay = (width, height, space, result, empty) => {
   bDayFiles = _.values(bDayFiles);
 
   var mainPic = bDayFiles[0];
-  mainPic.width = width / 2 > mainPic.width ? mainPic.width : _.round(width / 2);
+  mainPic.width = width / 2 > 1.5 * mainPic.width ? mainPic.width : _.round(width / 2);
   mainPic.height = _.round(mainPic.width / mainPic.ratio);
   mainPic.x = horizontalSwitch ? _.round((0.382 * width) - (mainPic.width / 2)) : _.round((0.618 * width) - (mainPic.width / 2));
   mainPic.y = verticalSwitch ? _.round((0.618 * height) - (mainPic.height/2)) : _.round((0.382 * height) - (mainPic.height / 2));
