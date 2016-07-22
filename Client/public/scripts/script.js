@@ -30,7 +30,7 @@ Hydrawall.prototype.loadGifs = function (container) {
     });
 */
 
-    $.getJSON( "http://192.168.9.156:4000/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
+    $.getJSON( "http://" + location.host + "/gifs/info?width="+$(window).width()+"&height="+$(window).height(), function( data ) {
       $.each( data, function( key, val ) {
           container.append("<img src='"+key+"' style=' width:"+val.width+"px; height:"+val.height+"px;  top:"+val.y+"px; left:"+val.x+"px;'>")
       });
