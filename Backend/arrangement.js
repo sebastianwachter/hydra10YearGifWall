@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var utils = require('./utils');
 
 exports.baselinePlus = (width, height, space, peoples, funnys) => {
   var picsCount = peoples.length + funnys.length;

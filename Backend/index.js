@@ -2,7 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
-var dimensions = require('image-size');
+var utils = require('./utils');
 
 // Wall configuration
 const peopleRatio = 0.8;
@@ -47,13 +47,13 @@ app.get(baseUriDirectory + '/info', (req, res) => {
     var peopleGifFilePaths = _.map(fileNames.people, (peopleGifFileName) => {
       return path.join(__dirname, baseFolder, peopleFolderName, peopleGifFileName);
     });
-    var peopleGifFiles = getGifInformations(peopleGifFilePaths);
+    var peopleGifFiles = utils.getGifInformations(peopleGifFilePaths);
 
     // collect further information for all funny gif files
     var funnyGifFilePaths = _.map(fileNames.funny, (funnyGifFileName) => {
       return path.join(__dirname, baseFolder, funnyFolderName, funnyGifFileName);
     });
-    var funnyGifFiles = getGifInformations(funnyGifFilePaths);
+    var funnyGifFiles = utils.getGifInformations(funnyGifFilePaths);
 
     // calculate coordinates and recalcuate dimensions of pics if asked for a wall
     if (req.query.width && req.query.height) {
@@ -123,33 +123,7 @@ function generateOutput(req, peopleGifFiles, funnyGifFiles) {
     }
   }
   return result;
-}
-
-/**
- * Get information of an array of images
- * @param filePaths array of distinct file paths
- * @returns object of information in the following format:
- * {
- *   "img.gif": {
- *     "height": 200,
- *     "width": 100,
- *     "ratio": 0.5   
- *   },
- *   ...
- * }
- */
-function getGifInformations(filePaths) {
-  var result = {};
-  for (var filePath of filePaths) {
-    var imgDimensions = dimensions(filePath);
-    result[path.basename(filePath)] = {
-      height: imgDimensions.height,
-      width: imgDimensions.width,
-      ratio: imgDimensions.width / imgDimensions.height
-    };
-  }
-  return result;
-}
+} 
 
 /**
  * Read the files from both directories (people and funny) and filter their names (.gif or .GIF)
