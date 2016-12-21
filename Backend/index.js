@@ -14,11 +14,11 @@ const maxPicsPerScreen = 18;
 
 // Config (change it per system)
 const baseFolder = '../gifs/';
-const baseUriDirectory = '/gifs';
+const baseUriDirectory = '';
 const peopleFolderName = 'people';
 const funnyFolderName = 'funny';
 const wallFilesFolder = '../Client/public';
-const wallFolderName = 'wall';
+const wallFolderName = '';
 
 // Setup
 const arrangementAlgos = require('./arrangement');
